@@ -1,27 +1,35 @@
 const request = require('request')
+const geocode = require('./utils/geocode.js')
+const forecast = require('./utils/forecast.js')
 
-const url = 'http://api.weatherstack.com/current?access_key=cd2d57c0c33155d142b6e6d6c8bd70bb&query=37.8267,-122.4233'
+// const url = 'http://api.weatherstack.com/current?access_key=cd2d57c0c33155d142b6e6d6c8bd70bb&query=37.8267,-122.4233'
 
-request({url: url, json: true}, (error, response) => {
-    if(error){
-        console.log('Unable to connect to weather service')
-    }else if(response.body.error){
-        console.log('Unable to find location')
-    } else{
-        console.log(response.body.current.weather_descriptions[0]+`. It is currently ${response.body.current.temperature} degrees out and it feels like ${response.body.current.feelslike} degrees out.`)
-    }
-})
+// request({url: url, json: true}, (error, response) => {
+//     if(error){
+//         console.log('Unable to connect to weather service')
+//     }else if(response.body.error){
+//         console.log('Unable to find location')
+//     } else{
+//         console.log(response.body.current.weather_descriptions[0]+`. It is currently ${response.body.current.temperature} degrees out and it feels like ${response.body.current.feelslike} degrees out.`)
+//     }
+// }) 
 
-// Geocoding
-// Addres -> Lat/Long -> Weather
-const geocodeURL = 'https://api.mapbox.com/geocoding/v5/mapbox.places/Philadelphia.json?access_token=pk.eyJ1IjoianJpb3Nub3MiLCJhIjoiY2tiMTFoajk5MGZ1bTJwbzJlazVwbXoxMyJ9.wKUoxcKOYFf_ra8JyV9kKw&limit=1'
+// geocode('Boston', (error, data)=>{
+//     console.log('Error', error)
+//     console.log('Data', data)
+// })
 
-request({url: geocodeURL, json: true}, (error, response) =>{
-    if(error){
-        console.log('Unable to connect to location services')
-    } else if(response.body.features.length == 0){
-        console.log('Unable to complete location request, check parameters!')
-    } else{
-       console.log(`The latitude is ${response.body.features[0].center[1]} and longitude is ${response.body.features[0].center[0]}`)
-        }
+//
+// Goal: Create a reusable function for getting the forecast
+//
+// 1. Setup the "forecast" function in utils/forecast.js
+// 2. Require the function in app.js and call it as shown below
+// 3. The forecast function should have three potential calls to callback:
+//    - Low level error, pass string for error
+//    - Coordinate error, pass string for error
+//    - Success, pass forecast string for data (same format as from before)
+
+forecast(37.8267,-122.4233, (error, data) => {
+  console.log('Error', error)
+  console.log('Data', data)
 })
